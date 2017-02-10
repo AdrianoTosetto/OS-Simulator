@@ -14,7 +14,7 @@ typedef struct _exceptionRegisters exceptionRegisters_t;
 typedef enum _instructionFormat instructionFormat;
 typedef enum _instructionType instructionType;
 
-enum _instructionFormat {R_TYPE, I_TYPE, J_TYPE};
+enum _instructionFormat {R_TYPE=1, I_TYPE=2, J_TYPE=3};
 enum _instructionType {
 	ADD, ADDI, ADDIU, ADDU, AND, ANDI, 
 	BEQ, BND, DIV, J, JAL, JR, LB, LUI,
@@ -90,5 +90,12 @@ void executeInstruction(uint32_t instruction);
 
 instructionFormat getInstructionFormat(uint32_t instruction);
 instructionType getInstructioType(uint32_t instruction);
+uint32_t getOpcode(uint32_t instruction);
+uint32_t getRT(uint32_t instruction);
+uint32_t getRD(uint32_t instruction);
+uint32_t getRS(uint32_t instruction);
+uint32_t getInstrConstant(uint32_t instruction);
+uint32_t getFunct(uint32_t instruction);
+uint32_t getShamt(uint32_t instruction);
 
 #endif
