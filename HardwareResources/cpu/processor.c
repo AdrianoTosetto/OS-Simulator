@@ -16,7 +16,7 @@ instructionType getInstructioType(uint32_t instruction) {
 
 	switch(f) {
 		case R_TYPE:
-			
+			return getInstructioTypeFormatR(instruction);
 		break;
 		case J_TYPE:
 
@@ -32,22 +32,21 @@ uint32_t getOpcode(uint32_t instruction) {
 	return (instruction & 0xFC000000) >> 26;
 }
 uint32_t getRS(uint32_t instruction) {
-
 	return (instruction & 0x03D00000) >> 21;
 }
 uint32_t getRT(uint32_t instruction) {
 	return (instruction & 0x001F0000) >> 16; //1111 11 11 111 1 1111 1111
 }
-uint32_t getRD(uint32_t instruction){
+uint32_t getRD(uint32_t instruction) {
 	return (instruction & 0x0000F800) >> 11;
 }
 uint32_t getInstrConstant(uint32_t instruction){
 	return (instruction & 0x0000FFFF);
 }
-uint32_t getFunct(uint32_t instruction){
+uint32_t getFunct(uint32_t instruction) {
 	return (instruction & 0x0000003F);
 }
-uint32_t getShamt(uint32_t instruction){
+uint32_t getShamt(uint32_t instruction) {
 	return (instruction & 0x000007C0) >> 6;
 }
 
@@ -107,7 +106,6 @@ instructionType getInstructioTypeFormatR(uint32_t instruction) {
 			return SUBU;
 		break;
 		default:
-
 		return _WHAT_;
 	}
 }
@@ -116,6 +114,6 @@ instructionType getInstructioTypeFormatJ(uint32_t instruction);
 
 int main(int argc, char const *argv[])
 {
-	printf("%d\n",getInstructioTypeFormatR(0b00000011000000000111100000100000));
+	printf("%d\n",getInstructioTypeFormatR(0b00000001001010100100000000100000));
 	return 0;
 }
