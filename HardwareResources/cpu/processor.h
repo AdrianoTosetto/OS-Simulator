@@ -110,6 +110,7 @@ instructionType getInstructioTypeFormatR(uint32_t instruction);
 instructionType getInstructioTypeFormatI(uint32_t instruction);
 instructionType getInstructioTypeFormatJ(uint32_t instruction);
 
+void initProcessor();
 
 
 #endif
