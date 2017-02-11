@@ -16,10 +16,12 @@ typedef enum _instructionType instructionType;
 
 enum _instructionFormat {R_TYPE=1, I_TYPE=2, J_TYPE=3};
 enum _instructionType {
-	ADD, ADDI, ADDIU, ADDU, AND, ANDI, 
-	BEQ, BND, DIV, J, JAL, JR, LB, LUI,
-	LW, NOP, OR, ORI, SB, SLL, SLLV, SLT,
-	SRL
+	ADD=1, ADDI=2, ADDIU=3, ADDU=4, AND=5, ANDI=6, 
+	BEQ=7, BNE=8, DIV=9, DIVU=10, J=11, JAL=12, JR=13, LBU=14,
+	LHU=15, LUI=16, LW=17, MFHI=18, MFL0=19, MFC0=20, MULT=21,
+	MULTU=22, NOR=23, XOR=24, OR=25, ORI=26, SB=27, SH=28, SLT=29,
+	SLTI=30, SLTIU=31, SLTU=32, SLL=33, SRL=34, SRA=35, SUB=36,
+	SUBU=37, SW=38, _WHAT_ = 40
 };
 
 struct _tempRegisters {
@@ -86,6 +88,12 @@ struct _procRegisters {
 	uint32_t $pc;
 };
 
+struct _processor {
+	procRegisters_t registers;
+	long long clockPeriod;
+};
+
+
 void executeInstruction(uint32_t instruction);
 
 instructionFormat getInstructionFormat(uint32_t instruction);
@@ -97,5 +105,11 @@ uint32_t getRS(uint32_t instruction);
 uint32_t getInstrConstant(uint32_t instruction);
 uint32_t getFunct(uint32_t instruction);
 uint32_t getShamt(uint32_t instruction);
+
+instructionType getInstructioTypeFormatR(uint32_t instruction);
+instructionType getInstructioTypeFormatI(uint32_t instruction);
+instructionType getInstructioTypeFormatJ(uint32_t instruction);
+
+
 
 #endif
