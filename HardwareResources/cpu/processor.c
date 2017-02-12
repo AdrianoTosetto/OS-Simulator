@@ -112,8 +112,124 @@ instructionType getInstructioTypeFormatR(uint32_t instruction) {
 instructionType getInstructioTypeFormatI(uint32_t instruction);
 instructionType getInstructioTypeFormatJ(uint32_t instruction);
 
+void initProcessor();
+void writeRegister(uint8_t reg, uint32_t value, processor *p) {
+	if(p == NULL) return;
+	switch(reg) {
+		case 0:
+			return; // $zero register can not be written
+		break;
+		case 1:
+			return;
+		break;
+		case 2:
+			p->registers.returnRegisters.$v0 = value;
+			printf("%d\n",p->registers.returnRegisters.$v0);
+		break;
+		case 3:
+			p->registers.returnRegisters.$v1 = value;
+		break;
+		case 4:
+			p->registers.argRegisters.$a0 = value;
+		break;
+		case 5:
+			p->registers.argRegisters.$a1 = value;
+		break;
+		case 6:
+			p->registers.argRegisters.$a2 = value;
+		break;
+		case 7:
+			p->registers.argRegisters.$a3 = value;
+		break;
+		case 8:
+			p->registers.tempRegisters.$t0 = value;
+		break;
+		case 9:
+			p->registers.tempRegisters.$t1 = value;
+		break;
+		case 10:
+			p->registers.tempRegisters.$t2 = value;
+		break;
+		case 11:
+			p->registers.tempRegisters.$t3 = value;
+		break;
+		case 12:
+			p->registers.tempRegisters.$t4 = value;
+		break;
+		case 13:
+			p->registers.tempRegisters.$t5 = value;
+		break;
+		case 14:
+			p->registers.tempRegisters.$t6 = value;
+		break;
+		case 15:
+			p->registers.tempRegisters.$t7 = value;
+		break;
+		case 16:
+			p->registers.savedRegisters.$s0 = value;
+		break;
+		case 17:
+			p->registers.savedRegisters.$s1 = value;
+		break;
+		case 18:
+			p->registers.savedRegisters.$s2 = value;
+		break;
+		case 19:
+			p->registers.savedRegisters.$s3 = value;
+		break;
+		case 20:
+			p->registers.savedRegisters.$s4 = value;
+		break;
+		case 21:
+			p->registers.savedRegisters.$s5 = value;
+		break;
+		case 22:
+			p->registers.savedRegisters.$s6 = value;
+		break;
+		case 23:
+			p->registers.savedRegisters.$s7 = value;
+		break;
+		case 24:
+			p->registers.tempRegisters.$t8 = value;
+		break;
+		case 25:
+			p->registers.tempRegisters.$t9 = value;
+		break;
+		case 26:
+			p->registers.exceptionRegisters.$k0 = value;
+		break;
+		case 27:
+			p->registers.exceptionRegisters.$k1 = value;
+		break;
+		case 28:
+			p->registers.$gp = value;
+		break;
+		case 29:
+			p->registers.$sp = value;
+		break;
+		case 30:
+			p->registers.$fp = value;
+		break;
+		case 31:
+			p->registers.$ra = value;
+		break;
+	}
+}
+
+/*
+* 
+*/
+void incrementPC(processor *p) {
+	p->registers.$pc = p->registers.$pc + 4;
+}
+void setPC(processor *p, uint32_t value) {
+	p->registers.$pc = value;
+}
+
 int main(int argc, char const *argv[])
 {
-	printf("%d\n",getInstructioTypeFormatR(0b00000001001010100100000000100000));
+	processor p;
+	writeRegister(2,0x1,&p);
+	printf("%d\n", p.registers.returnRegisters.$v0);
 	return 0;
 }

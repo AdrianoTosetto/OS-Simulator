@@ -7,9 +7,10 @@
 typedef struct _procRegisters procRegisters_t;
 typedef struct _tempRegisters tempRegisters_t;
 typedef struct _savedRegisters savedRegisters_t;
+typedef struct _argRegisters argRegisters_t;
 typedef struct _returnRegisters returnRegisters_t;
 typedef struct _exceptionRegisters exceptionRegisters_t;
-
+typedef struct _processor processor;
 
 typedef enum _instructionFormat instructionFormat;
 typedef enum _instructionType instructionType;
@@ -25,50 +26,50 @@ enum _instructionType {
 };
 
 struct _tempRegisters {
-	uint32_t $t0;
-	uint32_t $t1;
-	uint32_t $t2;
-	uint32_t $t3;
-	uint32_t $t4;
-	uint32_t $t5;
-	uint32_t $t6;
-	uint32_t $t7;
-	uint32_t $t8;
-	uint32_t $t9;
+	uint32_t $t0; //8
+	uint32_t $t1; //9
+	uint32_t $t2; //10
+	uint32_t $t3; //11
+	uint32_t $t4; //12
+	uint32_t $t5; //13
+	uint32_t $t6; //14
+	uint32_t $t7; //15
+	uint32_t $t8; //24
+	uint32_t $t9; //25
 };
 struct _savedRegisters{
-	uint32_t $s0;
-	uint32_t $s1;
-	uint32_t $s2;
-	uint32_t $s3;
-	uint32_t $s4;
-	uint32_t $s5;
-	uint32_t $s6;
-	uint32_t $s7;
+	uint32_t $s0; //16
+	uint32_t $s1; //17
+	uint32_t $s2; //18
+	uint32_t $s3; //19
+	uint32_t $s4; //20
+	uint32_t $s5; //21
+	uint32_t $s6; //22
+	uint32_t $s7; //23
 };
 
 /*
 * register used to function return values
 */
 struct _returnRegisters{
-	uint32_t $v0;
-	uint32_t $v1;
+	uint32_t $v0; //2
+	uint32_t $v1; //3
 };
 /*
 * registers used to store argument for functions
 */
 struct _argRegisters{
-	uint32_t $a0;
-	uint32_t $a1;
-	uint32_t $a2;
-	uint32_t $a3;
+	uint32_t $a0; //4
+	uint32_t $a1; //5
+	uint32_t $a2; //6
+	uint32_t $a3; //7
 };
 /*
 * exceptions registers
 */
 struct _exceptionRegisters{
-	uint32_t $k0;
-	uint32_t $k1;
+	uint32_t $k0; //26
+	uint32_t $k1; //27
 };
 
 
@@ -76,16 +77,17 @@ struct _procRegisters {
 	tempRegisters_t tempRegisters;
 	savedRegisters_t savedRegisters;
 	returnRegisters_t returnRegisters;
-	exceptionRegisters_t exceptionRegisters; 
+	exceptionRegisters_t exceptionRegisters;
+	argRegisters_t argRegisters;
 	
 	uint32_t $zero; // 0
 	uint32_t $at;  // 1
 
-	uint32_t $gp; //global pointer
-	uint32_t $sp; //stack pointer
-	uint32_t $fp; //frame pointer
-	uint32_t $ra; //return address
-	uint32_t $pc;
+	uint32_t $gp; //global pointer 28
+	uint32_t $sp; //stack pointer 29
+	uint32_t $fp; //frame pointer 30
+	uint32_t $ra; //return address 31
+	uint32_t $pc; //not visible for programmers
 };
 
 struct _processor {
@@ -111,6 +113,8 @@ instructionType getInstructioTypeFormatI(uint32_t instruction);
 instructionType getInstructioTypeFormatJ(uint32_t instruction);
 
 void initProcessor();
-
+void writeRegister(uint8_t reg, uint32_t value, processor *p);
+void incrementPC(processor *p);
+void setPC(processor *p, uint32_t value);
 
 #endif
