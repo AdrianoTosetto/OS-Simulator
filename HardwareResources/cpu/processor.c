@@ -1,7 +1,5 @@
 #include "processor.h"
 
-void executeInstruction(uint32_t instruction);
-
 instructionFormat getInstructionFormat(uint32_t instruction) {
 	uint8_t opcode = (instruction & 0xFC000000) >> 26;
 	if(opcode == 0x00000000) 
@@ -112,7 +110,6 @@ instructionType getInstructioTypeFormatR(uint32_t instruction) {
 instructionType getInstructioTypeFormatI(uint32_t instruction);
 instructionType getInstructioTypeFormatJ(uint32_t instruction);
 
-void initProcessor();
 void writeRegister(uint8_t reg, uint32_t value, processor *p) {
 	if(p == NULL) return;
 	switch(reg) {
@@ -224,6 +221,13 @@ void incrementPC(processor *p) {
 }
 void setPC(processor *p, uint32_t value) {
 	p->registers.$pc = value;
+}
+
+
+void initProcessor();
+void executeInstruction(Processor *p, uint32_t instruction) {
+	instructionType type = getInstructioType(instruction);
+
 }
 
 int main(int argc, char const *argv[])
