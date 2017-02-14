@@ -22,11 +22,11 @@ void writeWord(ram *r, ramAddress addr, uint32_t data) {
 		perror("");
 		exit(1);
 	}
-	uint8_t byteZero   = (data & 0x000000FF);
-	uint8_t byteOne    = (data & 0x0000FF00) >> 0x08;
-	uint8_t byteTwo    = (data & 0x00FF0000) >> 0x10;
-	uint8_t byteThree  = (data & 0xFF000000) >> 0x18;
-	
+	uint8_t byteZero   = (data & 0xFF000000) >> 0x18;
+	uint8_t byteOne    = (data & 0x00FF0000) >> 0x10;
+	uint8_t byteTwo    = (data & 0x0000FF00) >> 0x08;
+	uint8_t byteThree  = (data & 0x000000FF) ;
+
 	writeByte(r, addr, byteZero);
 	writeByte(r, addr + 0x1, byteOne);
 	writeByte(r, addr + 0x2, byteTwo);
@@ -45,7 +45,8 @@ uint32_t readWord(ram *r, ramAddress addr){
 	uint32_t byteOne   = readByte(r, addr + 1);
 	uint32_t byteTwo   = readByte(r, addr + 2);
 	uint32_t byteThree = readByte(r, addr + 3);
-	return concatenate(byteThree, concatenate(byteTwo,concatenate(byteOne, byteZero)));
+
+	return concatenate(byteZero, concatenate(byteOne,concatenate(byteTwo, byteThree)));
 }
 /*
 * x and y must me in hex format
@@ -60,7 +61,7 @@ uint32_t concatenate(uint32_t x, uint32_t y) {
 int main(int argc, char const *argv[])
 {
 	ram r;
-	writeWord(&r, 0x20, 0x1);
-	printf("%d\n", readWord(&r, 0x20));
+	writeWord(&r, 0x20,0x12345678);
+	printf("%0x\n", readByte(&r, 0x21));
 	return 0;
 }
