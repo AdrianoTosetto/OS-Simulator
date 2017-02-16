@@ -12,8 +12,6 @@ typedef struct _returnRegisters returnRegisters_t;
 typedef struct _exceptionRegisters exceptionRegisters_t;
 typedef struct _processor processor;
 
-typedef enum _instructionFormat instructionFormat;
-typedef enum _instructionType instructionType;
 
 enum _instructionFormat {R_TYPE=1, I_TYPE=2, J_TYPE=3};
 enum _instructionType {
@@ -24,6 +22,10 @@ enum _instructionType {
 	SLTI=30, SLTIU=31, SLTU=32, SLL=33, SRL=34, SRA=35, SUB=36,
 	SUBU=37, SW=38, _WHAT_ = 40
 };
+
+
+typedef enum _instructionFormat instructionFormat;
+typedef enum _instructionType instructionType;
 
 struct _tempRegisters {
 	uint32_t $t0; //8
@@ -95,26 +97,32 @@ struct _processor {
 	long long clockPeriod;
 };
 
+class Processor {
+	public: procRegisters_t registers; 
 
-void executeInstruction(uint32_t instruction);
+	public: void executeInstruction(uint32_t instruction);
+	public: instructionFormat getInstructionFormat(uint32_t instruction);
+	public: instructionType getInstructioType(uint32_t instruction);
+	public: uint32_t getOpcode(uint32_t instruction);
+	public: uint32_t getRT(uint32_t instruction);
+	public: uint32_t getRD(uint32_t instruction);
+	public: uint32_t getRS(uint32_t instruction);
+	public: uint32_t getInstrConstant(uint32_t instruction);
+	public: uint32_t getFunct(uint32_t instruction);
+	public: uint32_t getShamt(uint32_t instruction);
 
-instructionFormat getInstructionFormat(uint32_t instruction);
-instructionType getInstructioType(uint32_t instruction);
-uint32_t getOpcode(uint32_t instruction);
-uint32_t getRT(uint32_t instruction);
-uint32_t getRD(uint32_t instruction);
-uint32_t getRS(uint32_t instruction);
-uint32_t getInstrConstant(uint32_t instruction);
-uint32_t getFunct(uint32_t instruction);
-uint32_t getShamt(uint32_t instruction);
+	public: instructionType getInstructioTypeFormatR(uint32_t instruction);
+	public: instructionType getInstructioTypeFormatI(uint32_t instruction);
+	public: instructionType getInstructioTypeFormatJ(uint32_t instruction);
 
-instructionType getInstructioTypeFormatR(uint32_t instruction);
-instructionType getInstructioTypeFormatI(uint32_t instruction);
-instructionType getInstructioTypeFormatJ(uint32_t instruction);
+	public: void initProcessor();
+	public: void writeRegister(uint8_t reg, uint32_t value);
+	public: void incrementPC();
+	public: void setPC(uint32_t value);
+	public: uint32_t getRegValue(uint8_t regNum);
 
-void initProcessor();
-void writeRegister(uint8_t reg, uint32_t value, processor *p);
-void incrementPC(processor *p);
-void setPC(processor *p, uint32_t value);
+
+};
+
 
 #endif
